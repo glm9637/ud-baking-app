@@ -16,6 +16,7 @@ import com.example.android.bakingapp.RecipeDetail;
 import com.example.android.bakingapp.model.Recipe;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -41,6 +42,9 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 			case 0:
 				itemView = mInflater.inflate(R.layout.recipe_list_item_left,parent,false);
 				break;
+			case 1:
+				itemView = mInflater.inflate(R.layout.no_connection,parent,false);
+				break;
 			default:
 				itemView = mInflater.inflate(R.layout.recipe_list_item_right,parent,false);
 		}
@@ -59,13 +63,16 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 	
 	@Override
 	public int getItemViewType(int position) {
+		if(mData == null){
+			return 2;
+		}
 		return position%2;
 	}
 	
 	@Override
 	public int getItemCount() {
 		if(mData == null){
-			return 0;
+			return 1;
 		}
 		return mData.size();
 	}
@@ -85,7 +92,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 				@Override
 				public void onClick(View v) {
 					Intent intent = new Intent(mContext,RecipeDetail.class);
-					intent.putExtra("Recipe",mData.get(getAdapterPosition()));
+					intent.putExtra("Recipe",(Serializable) mData.get(getAdapterPosition()));
 					mContext.startActivity(intent);
 				}
 			});

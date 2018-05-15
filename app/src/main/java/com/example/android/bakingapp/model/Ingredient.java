@@ -6,10 +6,12 @@ import android.os.Parcelable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * Erzeugt von M. Fengels am 15.05.2018.
  */
-public class Ingredient implements Parcelable {
+public class Ingredient implements Parcelable, Serializable {
 	
 	private double quantity;
 	private String measure;

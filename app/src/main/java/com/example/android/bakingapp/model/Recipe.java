@@ -7,12 +7,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Erzeugt von M. Fengels am 15.05.2018.
  */
-public class Recipe implements Parcelable {
+public class Recipe implements Parcelable, Serializable {
 	
 	private int id;
 	private String name;
@@ -56,7 +57,7 @@ public class Recipe implements Parcelable {
 		this.image = image;
 	}
 	
-	public int getServings() {
+	public Integer getServings() {
 		return servings;
 	}
 	
@@ -100,5 +101,9 @@ public class Recipe implements Parcelable {
 	
 	public ArrayList<Step> getSteps() {
 		return steps;
+	}
+
+	public ArrayList<Ingredient> getIngredients() {
+		return ingredients;
 	}
 }

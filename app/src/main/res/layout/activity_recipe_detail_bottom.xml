@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:orientation="vertical"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="56dp"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/navigation_container"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="56dp">
+
+        <ImageView
+            android:id="@+id/btn_previous"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintRight_toLeftOf="@id/divider_left"
+            android:scaleType="center"
+            android:src="@drawable/baseline_arrow_back_ios_black_18"/>
+
+        <android.support.constraint.Guideline
+            android:id="@+id/divider_left"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/txt_stepper"
+            app:layout_constraintLeft_toRightOf="@id/divider_left"
+            app:layout_constraintRight_toLeftOf="@id/divider_right"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            android:fontFamily="serif"
+            tools:text="1/5"/>
+
+        <TextView
+            android:id="@+id/txt_current_page"
+            app:layout_constraintLeft_toRightOf="@id/divider_left"
+            app:layout_constraintRight_toLeftOf="@id/divider_right"
+            app:layout_constraintTop_toBottomOf="@id/txt_stepper"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:fontFamily="sans-serif-condensed"
+            tools:text="Ingredients"/>
+
+        <android.support.constraint.Guideline
+            android:id="@+id/divider_right"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.7"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:id="@+id/btn_next"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintLeft_toLeftOf="@id/divider_right"
+            android:scaleType="center"
+            android:src="@drawable/baseline_arrow_forward_ios_black_18"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/navigation_list"
+        android:layout_margin="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

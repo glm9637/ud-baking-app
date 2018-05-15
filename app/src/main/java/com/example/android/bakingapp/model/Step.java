@@ -6,10 +6,12 @@ import android.os.Parcelable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * Erzeugt von M. Fengels am 15.05.2018.
  */
-public class Step implements Parcelable {
+public class Step implements Parcelable, Serializable {
 	
 	private int id;
 	private String shortDescription;
