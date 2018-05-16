@@ -76,7 +76,7 @@ public class RecipeDetail extends AppCompatActivity {
 		mAdapter.setItemSelectedListener(new BottomNavigationAdapter.ItemSelected() {
 			@Override
 			public void onIngredientsSelected(int position, Recipe recipe) {
-				showSummary(position,"Ingredients");
+				showSummary(position,getString(R.string.ingredients));
 				sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 				pushFragment(mIngredients);
 			}

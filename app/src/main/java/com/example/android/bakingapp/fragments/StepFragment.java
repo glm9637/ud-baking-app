@@ -64,7 +64,7 @@ public class StepFragment extends Fragment {
         if(mPlayerView==null){
             return;
         }
-        if (mStep.getVideoUrl() == null) {
+        if ((mStep.getVideoUrl() == null || !mStep.getVideoUrl().isEmpty()) && (mStep.getThumbnailUrl() == null || !mStep.getThumbnailUrl().isEmpty())) {
             mPlayerView.setEnabled(false);
             return;
         }
@@ -80,8 +80,11 @@ public class StepFragment extends Fragment {
 
         mPlayerView.setPlayer(mPlayer);
         mPlayer.setPlayWhenReady(false);
-
-        Uri uri = Uri.parse(mStep.getVideoUrl());
+		String uriString = mStep.getVideoUrl();
+		if(uriString == null || uriString.isEmpty()){
+			uriString = mStep.getThumbnailUrl();
+		}
+        Uri uri = Uri.parse(uriString);
         MediaSource mediaSource = buildMediaSource(uri);
 
         mPlayer.prepare(mediaSource);

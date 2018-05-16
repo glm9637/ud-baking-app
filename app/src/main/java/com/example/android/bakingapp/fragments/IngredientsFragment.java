@@ -40,7 +40,7 @@ public class IngredientsFragment extends Fragment {
             public void onClick(View v) {
                 WidgetHelper.saveToFile(mData,getContext());
                 WidgetHelper.sendRefreshBroadcast(getContext());
-                Toast.makeText(getContext(),"Widget updated",Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), R.string.widget_updated,Toast.LENGTH_LONG).show();
             }
         });
         return rootView;

@@ -53,7 +53,7 @@ public class RecipeList extends AppCompatActivity
 		setSupportActionBar(toolbar);
 
 		mList = findViewById(R.id.recipe_list);
-		mListAdapter = new RecipeListAdapter(null,this);
+		mListAdapter = new RecipeListAdapter(new ArrayList<Recipe>(),this);
 		if(getResources().getBoolean(R.bool.isTablet)){
 			GridLayoutManager layoutManager = new GridLayoutManager(this,3);
 			mList.setLayoutManager(layoutManager);
