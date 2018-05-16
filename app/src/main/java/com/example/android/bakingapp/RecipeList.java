@@ -79,8 +79,7 @@ public class RecipeList extends AppCompatActivity
 	
 	@Override
 	public void onLoadFinished(@NonNull android.support.v4.content.Loader<ArrayList<Recipe>> loader, ArrayList<Recipe> data) {
-		mListAdapter.refreshData(data);
-		if(mIdlingResource!=null){
+		mListAdapter.refreshData(data);		if(mIdlingResource!=null){
 			mIdlingResource.setIdleState(true);
 		}
 	}
