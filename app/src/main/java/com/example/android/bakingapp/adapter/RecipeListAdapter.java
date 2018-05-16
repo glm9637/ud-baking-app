@@ -43,10 +43,11 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 				itemView = mInflater.inflate(R.layout.recipe_list_item_left,parent,false);
 				break;
 			case 1:
-				itemView = mInflater.inflate(R.layout.no_connection,parent,false);
+				itemView = mInflater.inflate(R.layout.recipe_list_item_right,parent,false);
 				break;
 			default:
-				itemView = mInflater.inflate(R.layout.recipe_list_item_right,parent,false);
+				itemView = mInflater.inflate(R.layout.no_connection,parent,false);
+				
 		}
 		
 		return new RecipeHolder(itemView);
@@ -54,6 +55,9 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 	
 	@Override
 	public void onBindViewHolder(@NonNull RecipeHolder holder, int position) {
+		if(mData==null){
+			return;
+		}
 		Recipe recipe = mData.get(position);
 		holder.mName.setText(recipe.getName());
 		if(!recipe.getImage().isEmpty()){
@@ -61,6 +65,11 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 		}
 	}
 	
+	/**
+	 * get the view type for the position
+	 * @param position the position of the item
+	 * @return if the data is 0 it returns 2, if its even a 0, else a 1
+	 */
 	@Override
 	public int getItemViewType(int position) {
 		if(mData == null){
@@ -77,6 +86,10 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 		return mData.size();
 	}
 	
+	/**
+	 * updates the data
+	 * @param data the new data to display
+	 */
 	public void refreshData(ArrayList<Recipe> data) {
 		mData = data;
 		notifyDataSetChanged();
@@ -86,6 +99,10 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 		ImageView mRecipeImage;
 		TextView mName;
 		
+		/**
+		 * saves the desired Views and adds a onClickListener to the rootView, which opens a DetailActivity
+		 * @param itemView the rootView
+		 */
 		RecipeHolder(View itemView) {
 			super(itemView);
 			itemView.setOnClickListener(new View.OnClickListener() {

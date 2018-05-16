@@ -29,9 +29,11 @@ public class IngredientsFragment extends Fragment {
 
         mData = getArguments().getParcelable("Recipe");
         View rootView = inflater.inflate(R.layout.fragment_ingredients,container,false);
+        
         mRecyclerView = rootView.findViewById(R.id.rcv_ingredient);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(new IngredientsAdapter(inflater,mData.getIngredients()));
+        
         Button mWidget = rootView.findViewById(R.id.save_to_widget);
         mWidget.setOnClickListener(new View.OnClickListener() {
             @Override

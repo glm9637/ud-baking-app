@@ -18,8 +18,11 @@ public class BottomNavigationAdapter extends RecyclerView.Adapter<BottomNavigati
     private Recipe mRecipe;
     private int mSelection;
     private ItemSelected mItemSelectedListener;
-
-    public int getCurrentPosition() {
+	
+	/**
+	 * @return the currently selected position
+	 */
+	public int getCurrentPosition() {
         return mSelection;
     }
 
@@ -43,8 +46,13 @@ public class BottomNavigationAdapter extends RecyclerView.Adapter<BottomNavigati
     public BottomNavigationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new BottomNavigationViewHolder(mInflater.inflate(R.layout.bottom_navigation_entry,parent,false));
     }
-
-    @Override
+	
+	/**
+	 * Binds the data to the ViewHolder
+	 * @param holder the view to display
+	 * @param position the position of the entry
+	 */
+	@Override
     public void onBindViewHolder(@NonNull BottomNavigationViewHolder holder, int position) {
         if(position == mSelection){
             holder.mTitle.setBackgroundResource(R.color.secondaryColor);
@@ -58,26 +66,40 @@ public class BottomNavigationAdapter extends RecyclerView.Adapter<BottomNavigati
             holder.mTitle.setText(mRecipe.getSteps().get(position).getShortDescription());
         }
     }
-
-    private void setSelectedItem(int selection){
+	
+	/**
+	 * switches the selected item
+	 * @param selection the new selected position
+	 */
+	private void setSelectedItem(int selection){
         int previousSelection = mSelection;
         mSelection = selection;
         notifyItemChanged(previousSelection);
         notifyItemChanged(mSelection);
     }
-
-    public void selectPreviousItem(){
+	
+	/**
+	 * if possible selects the previous item
+	 */
+	public void selectPreviousItem(){
         if(mSelection>0){
             selectItem(mSelection-1);
         }
     }
-
+	
+	/**
+	 * if possible selects the next item
+	 */
     public void selectNextItem(){
         if(mSelection<getItemCount()-1){
             selectItem(mSelection+1);
         }
     }
-
+	
+	/**
+	 * selects the item at the given position
+	 * @param position the position of the item to select
+	 */
     public void selectItem(int position){
         setSelectedItem(position);
         if(mItemSelectedListener!=null){

@@ -49,8 +49,12 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
             mName = itemView.findViewById(R.id.txt_name);
             mQuantity = itemView.findViewById(R.id.txt_quantity);
         }
-
-        public void setIngredient(Ingredient ingredient){
+	
+	    /**
+	     * updates the Textviews to the given ingredient
+	     * @param ingredient the ingredient to display
+	     */
+	    public void setIngredient(Ingredient ingredient){
             mName.setText(ingredient.getName());
             mQuantity.setText(String.format("%s %s",ingredient.getQuantity(),ingredient.getMeasure()));
         }

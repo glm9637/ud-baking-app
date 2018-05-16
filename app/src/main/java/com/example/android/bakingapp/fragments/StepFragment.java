@@ -56,8 +56,11 @@ public class StepFragment extends Fragment {
 
         return rootView;
     }
-
-    private void initializePlayer() {
+	
+	/**
+	 * Initializes a new Player Object
+	 */
+	private void initializePlayer() {
         if(mPlayerView==null){
             return;
         }
@@ -110,7 +113,7 @@ public class StepFragment extends Fragment {
 
     private MediaSource buildMediaSource(Uri uri) {
         return new ExtractorMediaSource.Factory(
-                new DefaultHttpDataSourceFactory("exoplayer-codelab")).
+                new DefaultHttpDataSourceFactory("exoplayer-baking-step")).
                 createMediaSource(uri);
     }
 
@@ -120,8 +123,11 @@ public class StepFragment extends Fragment {
             mPlayer = null;
         }
     }
-
-    public void updateData() {
+	
+	/**
+	 * updates the Displayed Description and the Player to the new Step passed over as Argument
+	 */
+	public void updateData() {
         mStep = getArguments().getParcelable("Step");
         releasePlayer();
         initializePlayer();

@@ -35,7 +35,11 @@ public class RecipeDetail extends AppCompatActivity {
 	IngredientsFragment mIngredients;
 	StepFragment mStepFragment;
 	FragmentManager mFragmentManager;
-
+	
+	/**
+	 * sets up all Views and Fragments
+	 * @param savedInstanceState
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -125,7 +129,12 @@ public class RecipeDetail extends AppCompatActivity {
 			mAdapter.selectItem(savedInstanceState.getInt("position"));
 		}
 	}
-
+	
+	/**
+	 * shows a summary on top of the bottom sheet
+	 * @param position the position of the current Page
+	 * @param text the Description of the current page
+	 */
 	private void showSummary(int position, String text){
 		mStepperPage.setText(String.format("%d/%d",++position,mRecipe.getSteps().size() + 1));
 		mCurrentStep.setText(text);
@@ -142,7 +151,10 @@ public class RecipeDetail extends AppCompatActivity {
 		objFragmentTransaction.commit();
 
 	}
-
+	
+	/**
+	 * saves the current page
+	 */
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);

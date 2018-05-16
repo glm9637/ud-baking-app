@@ -44,6 +44,11 @@ public class RecipeLoader extends AsyncTaskLoader<ArrayList<Recipe>> {
 		return null;
 	}
 	
+	/**
+	 * parses the JsonValue to a List of Recipes
+	 * @param jsonResult the JsonData from the Website
+	 * @return a complete List of Recipes
+	 */
 	private ArrayList<Recipe> parseData(String jsonResult){
 		mData = new ArrayList<>();
 		try {

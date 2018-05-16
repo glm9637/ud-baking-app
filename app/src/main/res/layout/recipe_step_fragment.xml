@@ -18,12 +18,18 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5"/>
 
+    <ScrollView
+        app:layout_constraintTop_toBottomOf="@id/divider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
     <TextView
         android:id="@+id/txt_description"
-        app:layout_constraintTop_toBottomOf="@id/divider"
         android:layout_marginTop="16dp"
         android:padding="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>
