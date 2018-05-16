@@ -23,7 +23,7 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
-    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.squareup.picasso:picasso:2.5.0'
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'com.google.android.exoplayer:exoplayer:2.8.0'
     implementation 'com.android.support.test.espresso:espresso-idling-resource:3.0.2'

@@ -35,6 +35,7 @@ public class RecipeDetail extends AppCompatActivity {
 	IngredientsFragment mIngredients;
 	StepFragment mStepFragment;
 	FragmentManager mFragmentManager;
+	Boolean isOnTablet;
 	
 	/**
 	 * sets up all Views and Fragments
@@ -50,26 +51,27 @@ public class RecipeDetail extends AppCompatActivity {
 		mBottomSheet = findViewById(R.id.bottom_sheet);
 		mPreviousStep = findViewById(R.id.btn_previous);
 		mNextStep = findViewById(R.id.btn_next);
-
+		isOnTablet = getResources().getBoolean(R.bool.isTablet);
 		showSummary(0,"Ingredients");
 
 		Toolbar toolbar = findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		getSupportActionBar().setDisplayShowTitleEnabled(false);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		sheetBehavior = BottomSheetBehavior.from(mBottomSheet);
+		if(!isOnTablet) {
+			sheetBehavior = BottomSheetBehavior.from(mBottomSheet);
 
-		mStepperPage.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
-					sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-				} else {
-					sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+			mStepperPage.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
+						sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+					} else {
+						collapseBottomSheet();
+					}
 				}
-			}
-		});
-
+			});
+		}
 		mNavigation = findViewById(R.id.navigation_list);
 		mNavigation.setLayoutManager(new LinearLayoutManager(this));
 		mAdapter = new BottomNavigationAdapter(this,mRecipe);
@@ -77,14 +79,14 @@ public class RecipeDetail extends AppCompatActivity {
 			@Override
 			public void onIngredientsSelected(int position, Recipe recipe) {
 				showSummary(position,getString(R.string.ingredients));
-				sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+				collapseBottomSheet();
 				pushFragment(mIngredients);
 			}
 
 			@Override
 			public void onStepSelected(int position, Step step) {
 				showSummary(position,step.getShortDescription());
-				sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+				collapseBottomSheet();
 
 				Bundle stepData = new Bundle();
 				stepData.putParcelable("Step",step);
@@ -127,9 +129,15 @@ public class RecipeDetail extends AppCompatActivity {
 
 		if(savedInstanceState!=null){
 			mAdapter.selectItem(savedInstanceState.getInt("position"));
+			if(!isOnTablet)
+				sheetBehavior.setState(savedInstanceState.getInt("sheet state"));
+			mStepFragment.onActivityCreated(savedInstanceState);
+		}else {
+			if(!isOnTablet)
+				sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 		}
 	}
-	
+
 	/**
 	 * shows a summary on top of the bottom sheet
 	 * @param position the position of the current Page
@@ -159,7 +167,15 @@ public class RecipeDetail extends AppCompatActivity {
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putInt("position",mAdapter.getCurrentPosition());
+		if(!isOnTablet)
+			outState.putInt("sheet state", sheetBehavior.getState());
+		mStepFragment.onSaveInstanceState(outState);
 	}
 
+	private void collapseBottomSheet(){
+		if(!isOnTablet){
+			sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+		}
+	}
 
 }

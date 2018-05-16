@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
@@ -26,6 +27,7 @@ import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+import com.squareup.picasso.Picasso;
 
 public class StepFragment extends Fragment {
 
@@ -33,7 +35,9 @@ public class StepFragment extends Fragment {
     SimpleExoPlayer mPlayer;
     Step mStep;
     TextView mDescription;
-
+    ImageView mThumbnailView;
+    Bundle savedInstanceState;
+    long position;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -48,24 +52,42 @@ public class StepFragment extends Fragment {
             rootView = inflater.inflate(R.layout.recipe_step_fragment_landscape, container, false);
         }
         mPlayerView = rootView.findViewById(R.id.exo_video);
-
+        mThumbnailView = rootView.findViewById(R.id.img_thumb);
         if(mStep!=null){
             initializePlayer();
         }
-
+        if(savedInstanceState!=null && mPlayer != null){
+            mPlayer.setPlayWhenReady(savedInstanceState.getBoolean("PlayWhenReady"));
+            mPlayer.seekTo(savedInstanceState.getLong("Position"));
+        }
 
         return rootView;
     }
-	
-	/**
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        this.savedInstanceState = savedInstanceState;
+    }
+
+    /**
 	 * Initializes a new Player Object
 	 */
 	private void initializePlayer() {
-        if(mPlayerView==null){
+        if(mPlayerView==null || mThumbnailView == null ||mPlayer != null){
             return;
         }
-        if ((mStep.getVideoUrl() == null || !mStep.getVideoUrl().isEmpty()) && (mStep.getThumbnailUrl() == null || !mStep.getThumbnailUrl().isEmpty())) {
-            mPlayerView.setEnabled(false);
+
+        mPlayerView.setVisibility(View.VISIBLE);
+        mThumbnailView.setVisibility(View.GONE);
+
+        if ((mStep.getVideoUrl() == null || mStep.getVideoUrl().isEmpty())) {
+                mThumbnailView.setVisibility(View.VISIBLE);
+                mPlayerView.setVisibility(View.INVISIBLE);
+                String uriString = mStep.getThumbnailUrl();
+                Uri uri = Uri.parse(uriString);
+                Picasso.with(getContext()).load(uri).error(R.drawable.ic_no_photo).fit().into(mThumbnailView);
+                mPlayerView.setEnabled(false);
             return;
         }
 
@@ -81,20 +103,18 @@ public class StepFragment extends Fragment {
         mPlayerView.setPlayer(mPlayer);
         mPlayer.setPlayWhenReady(false);
 		String uriString = mStep.getVideoUrl();
-		if(uriString == null || uriString.isEmpty()){
-			uriString = mStep.getThumbnailUrl();
-		}
         Uri uri = Uri.parse(uriString);
+
+        if(savedInstanceState!=null){
+            mPlayer.seekTo(savedInstanceState.getLong("Position"));
+            savedInstanceState = null;
+        }
+
         MediaSource mediaSource = buildMediaSource(uri);
-
-        mPlayer.prepare(mediaSource);
+        mPlayer.prepare(mediaSource,false,false);
+        mPlayer.setPlayWhenReady(true);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        initializePlayer();
-    }
 
     @Override
     public void onResume() {
@@ -108,11 +128,6 @@ public class StepFragment extends Fragment {
         releasePlayer();
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        releasePlayer();
-    }
 
     private MediaSource buildMediaSource(Uri uri) {
         return new ExtractorMediaSource.Factory(
@@ -122,6 +137,8 @@ public class StepFragment extends Fragment {
 
     private void releasePlayer() {
         if (mPlayer != null) {
+            position = mPlayer.getCurrentPosition();
+            mPlayer.stop();
             mPlayer.release();
             mPlayer = null;
         }
@@ -138,5 +155,9 @@ public class StepFragment extends Fragment {
             mDescription.setText(mStep.getDescription());
     }
 
-
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+	    outState.putLong("Position", position);
+        super.onSaveInstanceState(outState);
+    }
 }
